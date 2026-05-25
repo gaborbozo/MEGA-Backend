@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+  mega_database:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: mega
+      POSTGRES_USER: mega
+      POSTGRES_PASSWORD: Admin123
+    ports:
+      - 52786:5432
+volumes:
+  postgres_data:
