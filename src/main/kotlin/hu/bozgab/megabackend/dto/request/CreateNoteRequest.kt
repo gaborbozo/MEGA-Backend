@@ -2,9 +2,7 @@ package hu.bozgab.megabackend.dto.request
 
 import jakarta.validation.constraints.NotBlank
 
-data class LoginRequest(
+data class CreateNoteRequest(
     @field:NotBlank
-    val username: String,
-    @field:NotBlank
-    val password: String
+    val note: String,
 )

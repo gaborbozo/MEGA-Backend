@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface UserRepository : JpaRepository<MegaUser, Long> {
+interface MegaUserRepository : JpaRepository<MegaUser, Long> {
     fun findByUsername(username: String): Optional<MegaUser>
 }
