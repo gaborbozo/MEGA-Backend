@@ -22,7 +22,7 @@ class SecurityConfiguration() {
 
         return http
             .csrf { it.disable() }
-            .cors { it.disable() }
+            .cors { }
             .httpBasic { it.disable() }
             .formLogin { it.disable() }
             .sessionManagement {

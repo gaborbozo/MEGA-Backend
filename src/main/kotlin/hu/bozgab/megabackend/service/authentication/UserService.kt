@@ -23,6 +23,7 @@ class UserService(
                 throw JwtAuthenticationException(HttpStatus.UNAUTHORIZED.name)
 
             AuthNResponse(
+                userId = user.id,
                 expiration = jwtService.tokenExpiration,
                 token = jwtService.generateToken(user)
             )
