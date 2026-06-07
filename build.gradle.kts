@@ -1,7 +1,9 @@
 import java.util.*
 
 val env = Properties()
-file("env/config.env")
+rootProject.file("env/config.env")
+    .takeIf { it.exists() }?.reader()?.use { env.load(it) }
+rootProject.file("env/config-dev.env")
     .takeIf { it.exists() }?.reader()?.use { env.load(it) }
 
 group = "hu.bozgab"
