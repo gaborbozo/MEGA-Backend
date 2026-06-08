@@ -8,3 +8,10 @@ data class LoginRequest(
     @field:NotBlank
     val password: String
 )
+
+data class AuthNResponse(
+    val userId: Long,
+    val token: String,
+    val expiration: Long,
+    val theme: String?,
+)

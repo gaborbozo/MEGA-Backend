@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.config.security
 
-import hu.bozgab.megabackend.dto.MegaUser
+import hu.bozgab.megabackend.dto.MegaUserDTO
 import hu.bozgab.megabackend.exception.JwtAuthenticationException
 import hu.bozgab.megabackend.service.authentication.JwtAuthenticationToken
 import hu.bozgab.megabackend.service.authentication.JwtService
@@ -22,8 +22,9 @@ class JwtAuthenticationProvider(
 
         return token.let {
             JwtAuthenticationToken(
-                principal = MegaUser(
+                principal = MegaUserDTO(
                     id = jwtService.extractId(it),
+                    theme = null,
                     username = jwtService.extractUsername(it),
                     password = "",
                     authorities = emptyList()

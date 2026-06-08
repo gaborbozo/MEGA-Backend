@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.controller
 
-import hu.bozgab.megabackend.dto.MegaUser
+import hu.bozgab.megabackend.dto.MegaUserDTO
 import hu.bozgab.megabackend.dto.NoteDTO
 import hu.bozgab.megabackend.dto.request.CreateNoteRequest
 import hu.bozgab.megabackend.dto.request.UpdateNoteRequest
@@ -17,7 +17,7 @@ class NoteController(private val noteService: NoteService) {
     @PostMapping
     fun createNote(
         @RequestBody request: CreateNoteRequest,
-        @AuthenticationPrincipal user: MegaUser
+        @AuthenticationPrincipal user: MegaUserDTO
     ): ResponseEntity<NoteDTO> =
         ResponseEntity(noteService.createNote(user.id, request), HttpStatus.CREATED)
 

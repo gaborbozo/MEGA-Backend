@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.service.authentication
 
-import hu.bozgab.megabackend.dto.MegaUser
+import hu.bozgab.megabackend.dto.MegaUserDTO
 import hu.bozgab.megabackend.exception.JwtAuthenticationException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
@@ -30,7 +30,7 @@ class JwtService(
             claims[KEY_ID].toString().toLong()
         }
 
-    fun generateToken(user: MegaUser): String =
+    fun generateToken(user: MegaUserDTO): String =
         generateToken(mutableMapOf(), user)
 
     fun isTokenValid(jwt: String): Boolean =
@@ -41,7 +41,7 @@ class JwtService(
 
     private fun generateToken(
         extraClaims: MutableMap<String, Any>,
-        user: MegaUser
+        user: MegaUserDTO
     ): String {
         val now = System.currentTimeMillis()
 

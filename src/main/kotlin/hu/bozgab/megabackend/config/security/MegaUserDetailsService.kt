@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.config.security
 
-import hu.bozgab.megabackend.dto.MegaUser
+import hu.bozgab.megabackend.dto.MegaUserDTO
 import hu.bozgab.megabackend.repository.MegaUserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -16,11 +16,12 @@ class MegaUserDetailsService(
         val user = megaUserRepository.findByUsername(username)
             .orElseThrow { UsernameNotFoundException("User not found: $username") }
 
-        return MegaUser(
-            user.id,
-            user.username,
-            user.passwordHash,
-            emptyList()
+        return MegaUserDTO(
+            id = user.id,
+            theme = user.theme,
+            username = user.username,
+            password = user.passwordHash,
+            authorities = emptyList()
         )
     }
 }

@@ -9,12 +9,15 @@ class MegaUser(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    val id: Long = 0,
+    var id: Long = 0,
 
     @Column(name = "username", unique = true)
-    val username: String,
+    var username: String,
 
-    @Column(name = "password_hash")
-    val passwordHash: String,
+    @Column(name = "password_hash", nullable = false)
+    var passwordHash: String,
+
+    @Column(name = "theme")
+    var theme: String,
 
     )

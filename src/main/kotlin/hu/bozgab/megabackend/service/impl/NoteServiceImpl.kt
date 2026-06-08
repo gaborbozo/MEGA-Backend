@@ -24,10 +24,12 @@ class NoteServiceImpl(
 
         val note = Note(
             note = request.note,
+            color = request.color,
             createdBy = megaUser,
+            updatedBy = megaUser
         )
 
-        return mapToDTO(noteRepository.save(note))
+        return mapToDTO(noteRepository.saveAndFlush(note))
     }
 
     override fun getNoteById(id: Long): NoteDTO =
@@ -44,8 +46,9 @@ class NoteServiceImpl(
             .orElseThrow { NotFoundException() }
 
         request.note?.let { existingNote.note = it }
+        request.color?.let { existingNote.color = it }
 
-        return mapToDTO(noteRepository.save(existingNote))
+        return mapToDTO(noteRepository.saveAndFlush(existingNote))
     }
 
     override fun deleteNote(id: Long) {
@@ -56,8 +59,11 @@ class NoteServiceImpl(
         return NoteDTO(
             id = note.id!!,
             note = note.note,
+            color = note.color,
             createdBy = note.createdBy.username,
-            createdAt = note.createdAt
+            createdAt = note.createdAt,
+            updatedBy = note.updatedBy.username,
+            updatedAt = note.updatedAt,
         )
     }
 }
