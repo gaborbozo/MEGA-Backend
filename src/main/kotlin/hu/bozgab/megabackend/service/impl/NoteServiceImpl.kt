@@ -18,7 +18,7 @@ class NoteServiceImpl(
     private val megaUserRepository: MegaUserRepository
 ) : NoteService {
 
-    override fun createNote(userId: Long, request: CreateNoteRequest): NoteDTO {
+    override fun create(userId: Long, request: CreateNoteRequest): NoteDTO {
         val megaUser = megaUserRepository.findById(userId)
             .orElseThrow { NotFoundException() }
 
@@ -32,38 +32,49 @@ class NoteServiceImpl(
         return mapToDTO(noteRepository.saveAndFlush(note))
     }
 
-    override fun getNoteById(id: Long): NoteDTO =
-        noteRepository.findById(id)
+    override fun getById(id: Long): NoteDTO =
+        noteRepository.findByIdAndDeletedIsFalse(id)
             .orElseThrow { NotFoundException() }
             .let { mapToDTO(it) }
 
-    override fun getAllNotes(): List<NoteDTO> =
-        noteRepository.findAll()
+    override fun getAll(): List<NoteDTO> =
+        noteRepository.findAllByDeletedIsFalse()
             .map { mapToDTO(it) }
 
-    override fun updateNote(id: Long, request: UpdateNoteRequest): NoteDTO {
-        val existingNote = noteRepository.findById(id)
+    override fun update(userId: Long, id: Long, request: UpdateNoteRequest): NoteDTO {
+        val existingNote = noteRepository.findByIdAndDeletedIsFalse(id)
+            .orElseThrow { NotFoundException() }
+        val megaUser = megaUserRepository.findById(userId)
             .orElseThrow { NotFoundException() }
 
         request.note?.let { existingNote.note = it }
         request.color?.let { existingNote.color = it }
+        existingNote.updatedBy = megaUser
 
         return mapToDTO(noteRepository.saveAndFlush(existingNote))
     }
 
-    override fun deleteNote(id: Long) {
-        noteRepository.deleteById(id)
+    override fun delete(userId: Long, id: Long) {
+        val megaUser = megaUserRepository.findById(userId)
+            .orElseThrow { NotFoundException() }
+
+        noteRepository.findByIdAndDeletedIsFalse(id)
+            .orElseThrow { NotFoundException() }
+            .apply {
+                deleted = true
+                updatedBy = megaUser
+            }
+            .run { noteRepository.saveAndFlush(this) }
     }
 
-    private fun mapToDTO(note: Note): NoteDTO {
-        return NoteDTO(
-            id = note.id!!,
-            note = note.note,
-            color = note.color,
-            createdBy = note.createdBy.username,
-            createdAt = note.createdAt,
-            updatedBy = note.updatedBy.username,
-            updatedAt = note.updatedAt,
-        )
-    }
+    private fun mapToDTO(note: Note): NoteDTO = NoteDTO(
+        id = note.id!!,
+        note = note.note,
+        color = note.color,
+        createdBy = note.createdBy.username,
+        createdAt = note.createdAt,
+        updatedBy = note.updatedBy.username,
+        updatedAt = note.updatedAt,
+    )
+
 }

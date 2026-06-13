@@ -2,8 +2,8 @@ package hu.bozgab.megabackend.entity
 
 import jakarta.persistence.*
 
-@Entity
 @Table(name = "mega_user")
+@Entity
 class MegaUser(
 
     @Id

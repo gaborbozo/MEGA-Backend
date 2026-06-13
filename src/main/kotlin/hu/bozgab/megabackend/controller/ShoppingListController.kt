@@ -1,15 +1,39 @@
 package hu.bozgab.megabackend.controller
 
+import hu.bozgab.megabackend.dto.MegaUserDTO
+import hu.bozgab.megabackend.dto.ShoppingItemDTO
+import hu.bozgab.megabackend.dto.request.CreateShoppingItemRequest
+import hu.bozgab.megabackend.service.ShoppingItemService
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/shopping-list")
-class ShoppingListController {
+class ShoppingListController(
+    private val shoppingItemService: ShoppingItemService
+) {
+
+    @PostMapping
+    fun create(
+        @RequestBody @Valid request: CreateShoppingItemRequest,
+        @AuthenticationPrincipal user: MegaUserDTO
+    ): ResponseEntity<ShoppingItemDTO> =
+        ResponseEntity(shoppingItemService.create(user.id, request), HttpStatus.CREATED)
 
     @GetMapping
-    fun getShoppingLists(): ResponseEntity<String> = ResponseEntity.ok("milk")
+    fun getByYearAndWeek(
+        @RequestParam year: Int,
+        @RequestParam week: Int
+    ): ResponseEntity<List<ShoppingItemDTO>> =
+        ResponseEntity(shoppingItemService.getByYearAndWeek(year, week), HttpStatus.OK)
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long): ResponseEntity<Void> {
+        shoppingItemService.delete(id)
+        return ResponseEntity(HttpStatus.OK)
+    }
 
 }

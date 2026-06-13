@@ -19,10 +19,10 @@ class UserController(
 ) {
 
     @PatchMapping()
-    fun updateUser(
+    fun update(
         @RequestBody request: UpdateUserRequest,
         @AuthenticationPrincipal user: MegaUserDTO
     ): ResponseEntity<UpdateUserResponse> =
-        ResponseEntity(userService.updateUser(user.id, request), HttpStatus.OK)
+        ResponseEntity(userService.update(user.id, request), HttpStatus.OK)
 
 }

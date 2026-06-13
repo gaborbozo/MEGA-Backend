@@ -15,7 +15,7 @@ class UserServiceImpl(
     private val megaUserRepository: MegaUserRepository
 ) : UserService {
 
-    override fun updateUser(
+    override fun update(
         userId: Long,
         request: UpdateUserRequest
     ): UpdateUserResponse {
@@ -32,4 +32,5 @@ class UserServiceImpl(
             theme = megaUser.theme
         )
     }
+
 }

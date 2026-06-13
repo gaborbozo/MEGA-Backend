@@ -7,5 +7,7 @@ import java.util.*
 
 @Repository
 interface MegaUserRepository : JpaRepository<MegaUser, Long> {
+
     fun findByUsername(username: String): Optional<MegaUser>
+
 }
