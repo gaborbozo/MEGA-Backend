@@ -39,6 +39,9 @@ out/
 ### Kotlin ###
 .kotlin
 
+### Log ###
+/logs
+
 ### Dev ###
 application-dev.properties
 config-dev.env

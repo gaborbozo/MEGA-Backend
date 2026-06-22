@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/shopping-list")
 class ShoppingListController(
-    private val shoppingItemService: ShoppingItemService
+    private val service: ShoppingItemService
 ) {
 
     @PostMapping
@@ -21,18 +21,18 @@ class ShoppingListController(
         @RequestBody @Valid request: CreateShoppingItemRequest,
         @AuthenticationPrincipal user: MegaUserDTO
     ): ResponseEntity<ShoppingItemDTO> =
-        ResponseEntity(shoppingItemService.create(user.id, request), HttpStatus.CREATED)
+        ResponseEntity(service.create(user.id, request), HttpStatus.CREATED)
 
     @GetMapping
     fun getByYearAndWeek(
         @RequestParam year: Int,
         @RequestParam week: Int
     ): ResponseEntity<List<ShoppingItemDTO>> =
-        ResponseEntity(shoppingItemService.getByYearAndWeek(year, week), HttpStatus.OK)
+        ResponseEntity(service.getByYearAndWeek(year, week), HttpStatus.OK)
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Void> {
-        shoppingItemService.delete(id)
+        service.delete(id)
         return ResponseEntity(HttpStatus.OK)
     }
 

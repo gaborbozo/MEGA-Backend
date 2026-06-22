@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/user")
 class UserController(
-    private val userService: UserService
+    private val service: UserService
 ) {
 
     @PatchMapping()
@@ -23,6 +23,6 @@ class UserController(
         @RequestBody request: UpdateUserRequest,
         @AuthenticationPrincipal user: MegaUserDTO
     ): ResponseEntity<UpdateUserResponse> =
-        ResponseEntity(userService.update(user.id, request), HttpStatus.OK)
+        ResponseEntity(service.update(user.id, request), HttpStatus.OK)
 
 }

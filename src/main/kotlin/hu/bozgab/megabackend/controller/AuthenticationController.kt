@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/authentication")
 class AuthenticationController(
-    private val authenticationService: AuthenticationService
+    private val service: AuthenticationService
 ) {
 
     @PostMapping("/login")
     fun login(
         @RequestBody @Valid request: LoginRequest
-    ): ResponseEntity<AuthNResponse> = ResponseEntity.ok(authenticationService.login(request))
+    ): ResponseEntity<AuthNResponse> = ResponseEntity.ok(service.login(request))
 
 }

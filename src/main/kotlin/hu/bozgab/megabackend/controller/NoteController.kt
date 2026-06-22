@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/note")
-class NoteController(private val noteService: NoteService) {
+class NoteController(private val service: NoteService) {
 
     @PostMapping
     fun create(
         @RequestBody @Valid request: CreateNoteRequest,
         @AuthenticationPrincipal user: MegaUserDTO
     ): ResponseEntity<NoteDTO> =
-        ResponseEntity(noteService.create(user.id, request), HttpStatus.CREATED)
+        ResponseEntity(service.create(user.id, request), HttpStatus.CREATED)
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long): ResponseEntity<NoteDTO> =
-        ResponseEntity(noteService.getById(id), HttpStatus.OK)
+        ResponseEntity(service.getById(id), HttpStatus.OK)
 
 
     @GetMapping
     fun getAll(): ResponseEntity<List<NoteDTO>> =
-        ResponseEntity(noteService.getAll(), HttpStatus.OK)
+        ResponseEntity(service.getAll(), HttpStatus.OK)
 
     @PatchMapping("/{id}")
     fun update(
@@ -37,15 +37,15 @@ class NoteController(private val noteService: NoteService) {
         @RequestBody request: UpdateNoteRequest,
         @AuthenticationPrincipal user: MegaUserDTO
     ): ResponseEntity<NoteDTO> =
-        ResponseEntity(noteService.update(user.id, id, request), HttpStatus.OK)
+        ResponseEntity(service.update(user.id, id, request), HttpStatus.OK)
 
     @DeleteMapping("/{id}")
     fun delete(
         @PathVariable id: Long,
         @AuthenticationPrincipal user: MegaUserDTO
     ): ResponseEntity<Void> {
-        noteService.delete(user.id, id)
+        service.delete(user.id, id)
         return ResponseEntity(HttpStatus.OK)
     }
-    
+
 }
