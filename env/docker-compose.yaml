@@ -1,13 +1,39 @@
-version: '3.6'
-
 services:
-  mega_database:
+  mega_postgres:
     image: postgres:15
+    container_name: mega_postgres
     environment:
       POSTGRES_DB: mega
       POSTGRES_USER: mega
       POSTGRES_PASSWORD: Admin123
     ports:
-      - 52786:5432
-volumes:
-  postgres_data:
+      - 5432:5432
+    volumes:
+      - /var/lib/mega/postgres:/var/lib/postgresql/data
+      # postgres:
+    networks:
+      mega_network:
+  mega_app:
+    image: mega_app:latest
+    container_name: mega_app
+    depends_on:
+      - mega_postgres
+    ports:
+      - 52785:8080
+    networks:
+      - mega_network
+  mega_caddy:
+    image: caddy:2
+    depends_on:
+      - mega_postgres
+      - mega_app
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - mega_network
+
+networks:
+  mega_network:

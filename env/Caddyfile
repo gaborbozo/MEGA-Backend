@@ -1,0 +1,3 @@
+bozgabpi.duckdns.org {
+    reverse_proxy mega_app:8080
+}
