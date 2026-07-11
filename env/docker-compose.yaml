@@ -14,7 +14,7 @@ services:
     networks:
       mega_network:
   mega_app:
-    image: mega_app:latest
+    image: gaborbozo/mega:latest
     container_name: mega_app
     depends_on:
       - mega_postgres

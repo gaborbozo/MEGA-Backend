@@ -16,8 +16,10 @@ env:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,10 +29,13 @@ jobs:
         with:
           distribution: temurin
           java-version: '24'
-          cache: maven
+          cache: gradle
+
+      - name: Make Gradle Wrapper executable
+        run: chmod +x gradlew
 
       - name: Build application
-        run: mvn clean package
+        run: ./gradlew clean bootJar
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -45,7 +50,11 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./env/Dockerfile
           push: true
+          platforms: |
+            linux/amd64
+            linux/arm64
           tags: |
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
