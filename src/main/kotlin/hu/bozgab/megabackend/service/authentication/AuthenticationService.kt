@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.service.authentication
 
-import hu.bozgab.megabackend.dto.MegaUserDTO
+import hu.bozgab.megabackend.dto.MegaUserDto
 import hu.bozgab.megabackend.dto.request.AuthNResponse
 import hu.bozgab.megabackend.dto.request.LoginRequest
 import hu.bozgab.megabackend.exception.JwtAuthenticationException
@@ -18,7 +18,7 @@ class AuthenticationService(
 
     fun login(loginRequest: LoginRequest): AuthNResponse {
         val userDetails = userDetailsService.loadUserByUsername(loginRequest.username)
-        return (userDetails as MegaUserDTO).let { user ->
+        return (userDetails as MegaUserDto).let { user ->
             if (!passwordEncoder.matches(loginRequest.password, user.password))
                 throw JwtAuthenticationException(HttpStatus.UNAUTHORIZED.name)
 

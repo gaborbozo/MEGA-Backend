@@ -2,7 +2,7 @@ package hu.bozgab.megabackend.dto
 
 import java.time.Instant
 
-data class ShoppingItemDTO(
+data class ShoppingItemDto(
     val id: Long,
     val product: String,
     val createdBy: String,

@@ -19,7 +19,7 @@ services:
     depends_on:
       - mega_postgres
     ports:
-      - 52785:8080
+      - 8080:8080
     networks:
       - mega_network
   mega_caddy:

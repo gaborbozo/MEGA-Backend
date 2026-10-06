@@ -2,7 +2,7 @@ package hu.bozgab.megabackend.dto
 
 import java.time.Instant
 
-data class NoteDTO(
+data class NoteDto(
     val id: Long,
     val note: String,
     val color: String? = null,

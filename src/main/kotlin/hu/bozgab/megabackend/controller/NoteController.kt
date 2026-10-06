@@ -1,7 +1,7 @@
 package hu.bozgab.megabackend.controller
 
-import hu.bozgab.megabackend.dto.MegaUserDTO
-import hu.bozgab.megabackend.dto.NoteDTO
+import hu.bozgab.megabackend.dto.MegaUserDto
+import hu.bozgab.megabackend.dto.NoteDto
 import hu.bozgab.megabackend.dto.request.CreateNoteRequest
 import hu.bozgab.megabackend.dto.request.UpdateNoteRequest
 import hu.bozgab.megabackend.service.NoteService
@@ -18,31 +18,31 @@ class NoteController(private val service: NoteService) {
     @PostMapping
     fun create(
         @RequestBody @Valid request: CreateNoteRequest,
-        @AuthenticationPrincipal user: MegaUserDTO
-    ): ResponseEntity<NoteDTO> =
+        @AuthenticationPrincipal user: MegaUserDto
+    ): ResponseEntity<NoteDto> =
         ResponseEntity(service.create(user.id, request), HttpStatus.CREATED)
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long): ResponseEntity<NoteDTO> =
+    fun getById(@PathVariable id: Long): ResponseEntity<NoteDto> =
         ResponseEntity(service.getById(id), HttpStatus.OK)
 
 
     @GetMapping
-    fun getAll(): ResponseEntity<List<NoteDTO>> =
+    fun getAll(): ResponseEntity<List<NoteDto>> =
         ResponseEntity(service.getAll(), HttpStatus.OK)
 
     @PatchMapping("/{id}")
     fun update(
         @PathVariable id: Long,
         @RequestBody request: UpdateNoteRequest,
-        @AuthenticationPrincipal user: MegaUserDTO
-    ): ResponseEntity<NoteDTO> =
+        @AuthenticationPrincipal user: MegaUserDto
+    ): ResponseEntity<NoteDto> =
         ResponseEntity(service.update(user.id, id, request), HttpStatus.OK)
 
     @DeleteMapping("/{id}")
     fun delete(
         @PathVariable id: Long,
-        @AuthenticationPrincipal user: MegaUserDTO
+        @AuthenticationPrincipal user: MegaUserDto
     ): ResponseEntity<Void> {
         service.delete(user.id, id)
         return ResponseEntity(HttpStatus.OK)

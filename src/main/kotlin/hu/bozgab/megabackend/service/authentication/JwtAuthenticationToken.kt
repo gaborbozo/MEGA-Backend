@@ -1,12 +1,12 @@
 package hu.bozgab.megabackend.service.authentication
 
-import hu.bozgab.megabackend.dto.MegaUserDTO
+import hu.bozgab.megabackend.dto.MegaUserDto
 import org.springframework.security.authentication.AbstractAuthenticationToken
 
 class JwtAuthenticationToken : AbstractAuthenticationToken {
 
     private val token: String?
-    private val principal: MegaUserDTO?
+    private val principal: MegaUserDto?
 
     // non-authenticated
     constructor(token: String) : super(null) {
@@ -16,7 +16,7 @@ class JwtAuthenticationToken : AbstractAuthenticationToken {
     }
 
     // authenticated
-    constructor(principal: MegaUserDTO) : super(principal.authorities) {
+    constructor(principal: MegaUserDto) : super(principal.authorities) {
         this.token = null
         this.principal = principal
         super.setAuthenticated(true)
@@ -24,7 +24,7 @@ class JwtAuthenticationToken : AbstractAuthenticationToken {
 
     override fun getCredentials(): Any? = token
 
-    override fun getPrincipal(): MegaUserDTO? = principal
+    override fun getPrincipal(): MegaUserDto? = principal
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

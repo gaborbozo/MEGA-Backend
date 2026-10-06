@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.controller
 
-import hu.bozgab.megabackend.dto.MegaUserDTO
+import hu.bozgab.megabackend.dto.MegaUserDto
 import hu.bozgab.megabackend.dto.request.UpdateUserRequest
 import hu.bozgab.megabackend.dto.request.UpdateUserResponse
 import hu.bozgab.megabackend.service.UserService
@@ -21,7 +21,7 @@ class UserController(
     @PatchMapping()
     fun update(
         @RequestBody request: UpdateUserRequest,
-        @AuthenticationPrincipal user: MegaUserDTO
+        @AuthenticationPrincipal user: MegaUserDto
     ): ResponseEntity<UpdateUserResponse> =
         ResponseEntity(service.update(user.id, request), HttpStatus.OK)
 

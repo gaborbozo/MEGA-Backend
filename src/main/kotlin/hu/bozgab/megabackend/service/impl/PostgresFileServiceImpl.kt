@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.service.impl
 
-import hu.bozgab.megabackend.dto.StoredFileDTO
+import hu.bozgab.megabackend.dto.StoredFileDto
 import hu.bozgab.megabackend.entity.StoredFile
 import hu.bozgab.megabackend.exception.EntityDeletedException
 import hu.bozgab.megabackend.exception.EntityNotFoundException
@@ -40,12 +40,12 @@ class PostgresFileServiceImpl(
         ).run { repository.save(this).id!! }
     }
 
-    override fun load(uuid: UUID): StoredFileDTO =
+    override fun load(uuid: UUID): StoredFileDto =
         repository.findByIdAndDeletedIsFalse(uuid)
             .orElseThrow { FileNotFoundException() }
             .also { if (it.deleted) throw EntityDeletedException() }
             .run {
-                StoredFileDTO(
+                StoredFileDto(
                     fileName = originalFileName,
                     contentType = MediaType.parseMediaType(contentType),
                     size = size,

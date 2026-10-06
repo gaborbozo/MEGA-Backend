@@ -1,7 +1,7 @@
 package hu.bozgab.megabackend.controller
 
-import hu.bozgab.megabackend.dto.MegaUserDTO
-import hu.bozgab.megabackend.dto.ShoppingItemDTO
+import hu.bozgab.megabackend.dto.MegaUserDto
+import hu.bozgab.megabackend.dto.ShoppingItemDto
 import hu.bozgab.megabackend.dto.request.CreateShoppingItemRequest
 import hu.bozgab.megabackend.service.ShoppingItemService
 import jakarta.validation.Valid
@@ -19,15 +19,15 @@ class ShoppingListController(
     @PostMapping
     fun create(
         @RequestBody @Valid request: CreateShoppingItemRequest,
-        @AuthenticationPrincipal user: MegaUserDTO
-    ): ResponseEntity<ShoppingItemDTO> =
+        @AuthenticationPrincipal user: MegaUserDto
+    ): ResponseEntity<ShoppingItemDto> =
         ResponseEntity(service.create(user.id, request), HttpStatus.CREATED)
 
     @GetMapping
     fun getByYearAndWeek(
         @RequestParam year: Int,
         @RequestParam week: Int
-    ): ResponseEntity<List<ShoppingItemDTO>> =
+    ): ResponseEntity<List<ShoppingItemDto>> =
         ResponseEntity(service.getByYearAndWeek(year, week), HttpStatus.OK)
 
     @DeleteMapping("/{id}")

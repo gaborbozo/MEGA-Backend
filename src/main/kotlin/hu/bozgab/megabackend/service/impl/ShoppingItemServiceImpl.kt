@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.service.impl
 
-import hu.bozgab.megabackend.dto.ShoppingItemDTO
+import hu.bozgab.megabackend.dto.ShoppingItemDto
 import hu.bozgab.megabackend.dto.request.CreateShoppingItemRequest
 import hu.bozgab.megabackend.entity.ShoppingItem
 import hu.bozgab.megabackend.exception.EntityNotFoundException
@@ -17,7 +17,7 @@ class ShoppingItemServiceImpl(
     private val megaUserRepository: MegaUserRepository
 ) : ShoppingItemService {
 
-    override fun create(userId: Long, request: CreateShoppingItemRequest): ShoppingItemDTO {
+    override fun create(userId: Long, request: CreateShoppingItemRequest): ShoppingItemDto {
         val megaUser = megaUserRepository.findById(userId)
             .orElseThrow { EntityNotFoundException() }
 
@@ -26,12 +26,12 @@ class ShoppingItemServiceImpl(
             createdBy = megaUser
         )
 
-        return mapToDTO(repository.saveAndFlush(shoppingItem))
+        return mapToDto(repository.saveAndFlush(shoppingItem))
     }
 
-    override fun getByYearAndWeek(year: Int, week: Int): List<ShoppingItemDTO> =
+    override fun getByYearAndWeek(year: Int, week: Int): List<ShoppingItemDto> =
         repository.findByYearAndWeekAndDeletedIsFalse(year, week)
-            .map { mapToDTO(it) }
+            .map { mapToDto(it) }
 
     override fun delete(id: Long) {
         repository.findById(id)
@@ -40,7 +40,7 @@ class ShoppingItemServiceImpl(
             .run { repository.saveAndFlush(this) }
     }
 
-    private fun mapToDTO(shoppingItem: ShoppingItem): ShoppingItemDTO = ShoppingItemDTO(
+    private fun mapToDto(shoppingItem: ShoppingItem): ShoppingItemDto = ShoppingItemDto(
         id = shoppingItem.id!!,
         product = shoppingItem.product,
         createdBy = shoppingItem.createdBy.username,
