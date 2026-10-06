@@ -11,6 +11,7 @@ version = "0.0.1-SNAPSHOT"
 
 val springBootVersion = "4.0.6"
 val jjwtVersion = "0.13.0"
+val resendVersion = "4.28.0"
 
 plugins {
     kotlin("jvm") version "2.2.21"
@@ -59,6 +60,10 @@ dependencies {
     // Source: https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
 
+    // Email
+    // Source: https://mvnrepository.com/artifact/com.resend/resend-java
+    implementation("com.resend:resend-java:$resendVersion")
+
     testImplementation("org.springframework.boot:spring-boot-starter-security-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -73,9 +78,9 @@ buildscript {
 }
 
 flyway {
-    url = "jdbc:postgresql://${env.getProperty("DATABASE.URL")}"
-    user = env.getProperty("DATABASE.USERNAME")
-    password = env.getProperty("DATABASE.PASSWORD")
+    url = "jdbc:postgresql://${env.getProperty("DATABASE_URL")}/mega"
+    user = env.getProperty("DATABASE_USERNAME")
+    password = env.getProperty("DATABASE_PASSWORD")
     locations = arrayOf("filesystem:src/main/resources/db/migration")
 }
 
