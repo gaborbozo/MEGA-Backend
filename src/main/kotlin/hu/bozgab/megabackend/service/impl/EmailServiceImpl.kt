@@ -4,12 +4,15 @@ import com.resend.Resend
 import com.resend.services.emails.model.Attachment
 import com.resend.services.emails.model.CreateEmailOptions
 import hu.bozgab.megabackend.dto.EmailDto
+import hu.bozgab.megabackend.dto.resend.ResendEmailWebhookRequest
 import hu.bozgab.megabackend.entity.Email
 import hu.bozgab.megabackend.entity.enum.EmailStatus
+import hu.bozgab.megabackend.exception.EntityNotFoundException
 import hu.bozgab.megabackend.repository.EmailRepository
 import hu.bozgab.megabackend.service.EmailService
 import hu.bozgab.megabackend.service.GeriService
 import hu.bozgab.megabackend.service.util.HtmlUtil.Companion.toHtml
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
@@ -52,6 +55,30 @@ class EmailServiceImpl(
         )
     }
 
+    override fun updateStatus(request: ResendEmailWebhookRequest) {
+        request.run {
+            val newStatus = EmailStatus.fromResendEventType(type)
+                ?: throw IllegalArgumentException("Unsupported Resend email event type: $type")
+            val resendId = requireNotNull(data?.emailId) { "Resend email ID is required" }
+
+            emailRepository.findByResendId(resendId)
+                ?.let { email ->
+                    if (email.status.canTransitionTo(newStatus)) {
+                        email.apply { status = newStatus }
+                            .also { emailRepository.save(it) }
+                    } else {
+                        log.info(
+                            "Ignoring stale email status event for Resend ID {}: current status is {}, received status is {}",
+                            resendId,
+                            email.status,
+                            newStatus
+                        )
+                    }
+                }
+                ?: throw EntityNotFoundException()
+        }
+    }
+
     private fun buildRandomGeriAttachment(): Attachment {
         val photo = geriService.getRandom()
         val photoBytes = photo.contentStream.inputStream.use { it.readBytes() }
@@ -64,6 +91,7 @@ class EmailServiceImpl(
     }
 
     private companion object {
+        val log = LoggerFactory.getLogger(EmailServiceImpl::class.java)
         const val GENERIC_TEMPLATE_PATH = "static/email/generic_template.html"
         const val GENERIC_TEMPLATE_MESSAGE_PLACEHOLDER = "{{message}}"
         const val GERI_PHOTO_CONTENT_ID = "geri-photo"
