@@ -3,7 +3,7 @@ package hu.bozgab.megabackend.dto
 import org.springframework.core.io.Resource
 import org.springframework.http.MediaType
 
-data class StoredFileDTO(
+data class StoredFileDto(
     // Service specific value
     var id: Long? = null,
 

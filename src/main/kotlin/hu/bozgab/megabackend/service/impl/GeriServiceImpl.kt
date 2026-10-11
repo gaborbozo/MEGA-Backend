@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.service.impl
 
-import hu.bozgab.megabackend.dto.StoredFileDTO
+import hu.bozgab.megabackend.dto.StoredFileDto
 import hu.bozgab.megabackend.entity.GeriFile
 import hu.bozgab.megabackend.exception.EntityNotFoundException
 import hu.bozgab.megabackend.repository.GeriFileRepository
@@ -35,7 +35,7 @@ class GeriServiceImpl(
             }.run { repository.save(this).id!! }
     }
 
-    override fun getRandom(): StoredFileDTO =
+    override fun getRandom(): StoredFileDto =
         repository.findRandomAndDeletedIsFalse()
             .orElseThrow { EntityNotFoundException() }
             .let { geriFile ->

@@ -2,9 +2,12 @@ package hu.bozgab.megabackend.dto
 
 import java.time.Instant
 
-data class ShoppingItemDTO(
+data class NoteDto(
     val id: Long,
-    val product: String,
+    val note: String,
+    val color: String? = null,
     val createdBy: String,
     val createdAt: Instant,
+    val updatedBy: String,
+    val updatedAt: Instant
 )

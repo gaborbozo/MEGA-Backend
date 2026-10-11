@@ -5,4 +5,5 @@ import jakarta.validation.constraints.NotBlank
 data class CreateShoppingItemRequest(
     @field:NotBlank
     val product: String,
+    val repeatable: Boolean = false,
 )

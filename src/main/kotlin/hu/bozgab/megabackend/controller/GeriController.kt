@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.controller
 
-import hu.bozgab.megabackend.dto.MegaUserDTO
+import hu.bozgab.megabackend.dto.MegaUserDto
 import hu.bozgab.megabackend.service.GeriService
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
@@ -21,7 +21,7 @@ class GeriController(private val service: GeriService) {
     )
     fun upload(
         @RequestBody request: MultipartFile,
-        @AuthenticationPrincipal user: MegaUserDTO
+        @AuthenticationPrincipal user: MegaUserDto
     ): ResponseEntity<Long> =
         ResponseEntity(service.upload(request, user.id), HttpStatus.CREATED)
 

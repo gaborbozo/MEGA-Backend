@@ -31,6 +31,7 @@ class SecurityConfiguration() {
             .authorizeHttpRequests {
                 it.requestMatchers("/api/authentication/login").permitAll()
                 it.requestMatchers("/api/public/**").permitAll()
+                it.requestMatchers("/webhook/email").permitAll()
                 it.anyRequest().authenticated()
             }
             .addFilterBefore(

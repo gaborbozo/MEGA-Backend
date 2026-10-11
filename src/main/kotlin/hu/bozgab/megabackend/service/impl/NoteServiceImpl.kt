@@ -1,6 +1,6 @@
 package hu.bozgab.megabackend.service.impl
 
-import hu.bozgab.megabackend.dto.NoteDTO
+import hu.bozgab.megabackend.dto.NoteDto
 import hu.bozgab.megabackend.dto.request.CreateNoteRequest
 import hu.bozgab.megabackend.dto.request.UpdateNoteRequest
 import hu.bozgab.megabackend.entity.Note
@@ -18,7 +18,7 @@ class NoteServiceImpl(
     private val megaUserRepository: MegaUserRepository
 ) : NoteService {
 
-    override fun create(userId: Long, request: CreateNoteRequest): NoteDTO {
+    override fun create(userId: Long, request: CreateNoteRequest): NoteDto {
         val megaUser = megaUserRepository.findById(userId)
             .orElseThrow { EntityNotFoundException() }
 
@@ -29,19 +29,19 @@ class NoteServiceImpl(
             updatedBy = megaUser
         )
 
-        return mapToDTO(repository.saveAndFlush(note))
+        return mapToDto(repository.saveAndFlush(note))
     }
 
-    override fun getById(id: Long): NoteDTO =
+    override fun getById(id: Long): NoteDto =
         repository.findByIdAndDeletedIsFalse(id)
             .orElseThrow { EntityNotFoundException() }
-            .let { mapToDTO(it) }
+            .let { mapToDto(it) }
 
-    override fun getAll(): List<NoteDTO> =
+    override fun getAll(): List<NoteDto> =
         repository.findAllByDeletedIsFalse()
-            .map { mapToDTO(it) }
+            .map { mapToDto(it) }
 
-    override fun update(userId: Long, id: Long, request: UpdateNoteRequest): NoteDTO {
+    override fun update(userId: Long, id: Long, request: UpdateNoteRequest): NoteDto {
         val existingNote = repository.findByIdAndDeletedIsFalse(id)
             .orElseThrow { EntityNotFoundException() }
         val megaUser = megaUserRepository.findById(userId)
@@ -51,7 +51,7 @@ class NoteServiceImpl(
         request.color?.let { existingNote.color = it }
         existingNote.updatedBy = megaUser
 
-        return mapToDTO(repository.saveAndFlush(existingNote))
+        return mapToDto(repository.saveAndFlush(existingNote))
     }
 
     override fun delete(userId: Long, id: Long) {
@@ -67,7 +67,7 @@ class NoteServiceImpl(
             .run { repository.saveAndFlush(this) }
     }
 
-    private fun mapToDTO(note: Note): NoteDTO = NoteDTO(
+    private fun mapToDto(note: Note): NoteDto = NoteDto(
         id = note.id!!,
         note = note.note,
         color = note.color,

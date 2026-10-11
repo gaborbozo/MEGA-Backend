@@ -14,14 +14,16 @@ services:
     networks:
       mega_network:
   mega_app:
-    image: mega_app:latest
+    image: gaborbozo/mega:latest
     container_name: mega_app
     depends_on:
       - mega_postgres
     ports:
-      - 52785:8080
+      - 8080:8080
     networks:
       - mega_network
+    env_file:
+      - ./config.env
   mega_caddy:
     image: caddy:2
     depends_on:

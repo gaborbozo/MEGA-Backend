@@ -3,7 +3,7 @@ package hu.bozgab.megabackend.dto
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.User
 
-class MegaUserDTO(
+class MegaUserDto(
     val id: Long,
     val theme: String?,
     username: String,
