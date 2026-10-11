@@ -1,0 +1,2 @@
+ALTER TABLE "shopping_item"
+    ADD COLUMN repeatable BOOLEAN NOT NULL DEFAULT FALSE;

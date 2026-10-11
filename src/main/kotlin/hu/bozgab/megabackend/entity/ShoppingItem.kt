@@ -25,5 +25,8 @@ data class ShoppingItem(
     val createdAt: Instant = Instant.now(),
 
     @Column(name = "deleted", nullable = false)
-    var deleted: Boolean = false
+    var deleted: Boolean = false,
+
+    @Column(name = "repeatable", nullable = false)
+    var repeatable: Boolean = false
 )

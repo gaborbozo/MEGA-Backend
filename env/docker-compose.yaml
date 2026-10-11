@@ -22,6 +22,8 @@ services:
       - 8080:8080
     networks:
       - mega_network
+    env_file:
+      - ./config.env
   mega_caddy:
     image: caddy:2
     depends_on:

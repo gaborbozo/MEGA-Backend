@@ -6,5 +6,6 @@ import hu.bozgab.megabackend.dto.request.CreateShoppingItemRequest
 interface ShoppingItemService {
     fun create(userId: Long, request: CreateShoppingItemRequest): ShoppingItemDto
     fun delete(id: Long)
+    fun dropRepeat(id: Long)
     fun getByYearAndWeek(year: Int, week: Int): List<ShoppingItemDto>
 }

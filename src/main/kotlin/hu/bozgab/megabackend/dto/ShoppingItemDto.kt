@@ -7,4 +7,5 @@ data class ShoppingItemDto(
     val product: String,
     val createdBy: String,
     val createdAt: Instant,
+    val repeatable: Boolean,
 )

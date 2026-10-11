@@ -36,4 +36,10 @@ class ShoppingListController(
         return ResponseEntity(HttpStatus.OK)
     }
 
+    @DeleteMapping("/{id}/repeat")
+    fun dropRepeat(@PathVariable id: Long): ResponseEntity<Void> {
+        service.dropRepeat(id)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
 }
