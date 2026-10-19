@@ -12,6 +12,7 @@ version = "0.0.1-SNAPSHOT"
 val springBootVersion = "4.0.6"
 val jjwtVersion = "0.13.0"
 val resendVersion = "4.28.0"
+val prometheusVersion = "1.17.1"
 
 plugins {
     kotlin("jvm") version "2.2.21"
@@ -63,6 +64,10 @@ dependencies {
     // Email
     // Source: https://mvnrepository.com/artifact/com.resend/resend-java
     implementation("com.resend:resend-java:$resendVersion")
+
+    // Monitoring
+    // Source: https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
+    implementation("io.micrometer:micrometer-registry-prometheus:$prometheusVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-security-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
