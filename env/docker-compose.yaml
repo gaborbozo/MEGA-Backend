@@ -1,7 +1,7 @@
 services:
-  mega_postgres:
+  mega-postgres:
     image: postgres:15
-    container_name: mega_postgres
+    container_name: mega-postgres
     environment:
       POSTGRES_DB: mega
       POSTGRES_USER: mega
@@ -12,43 +12,43 @@ services:
       - /var/lib/mega/postgres:/var/lib/postgresql/data
       # - postgres_data:/var/lib/postgresql/data
     networks:
-      mega_network:
-  mega_app:
+      mega-network:
+  mega-app:
     image: gaborbozo/mega:latest
-    container_name: mega_app
+    container_name: mega-app
     depends_on:
-      - mega_postgres
+      - mega-postgres
     ports:
       - 8080:8080
     networks:
-      - mega_network
+      - mega-network
     env_file:
       - ./config.env
-  mega_caddy:
+  mega-caddy:
     image: caddy:2
-    container_name: mega_caddy
+    container_name: mega-caddy
     depends_on:
-      - mega_postgres
-      - mega_app
+      - mega-postgres
+      - mega-app
     ports:
       - 80:80
       - 443:443
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
     networks:
-      - mega_network
-  mega_prometheus:
+      - mega-network
+  mega-prometheus:
     image: prom/prometheus:latest
-    container_name: mega_prometheus
+    container_name: mega-prometheus
     ports:
       - 9090:9090
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
-      - mega_network
-  mega_grafana:
+      - mega-network
+  mega-grafana:
     image: grafana/grafana-oss:latest
-    container_name: mega_grafana
+    container_name: mega-grafana
     ports:
       - 3000:3000
     environment:
@@ -58,10 +58,10 @@ services:
       - /var/lib/mega/grafana:/var/lib/grafana
       # - grafana_data:/var/lib/grafana
     networks:
-      - mega_network
+      - mega-network
 
 networks:
-  mega_network:
+  mega-network:
 
 # volumes:
 #  postgres_data:
