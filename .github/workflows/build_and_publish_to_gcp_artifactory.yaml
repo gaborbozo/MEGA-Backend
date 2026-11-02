@@ -7,8 +7,8 @@ on:
 env:
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GCP_AR_LOCATION: ${{ secrets.GCP_AR_LOCATION }}
-  GCP_AR_URL: ${{ secrets.GCP_AR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}
+  GCP_AR_LOCATION: ${{ vars.GCP_AR_LOCATION }}
+  GCP_AR_URL: ${{ vars.GCP_AR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}
 
 jobs:
   build-and-publish:
