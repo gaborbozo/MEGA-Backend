@@ -60,7 +60,7 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ${{ env.GCP_AR_URL }}/mega-docker/mega-backend:latest
-            ${{ env.GCP_AR_URL }}/mega-docker/mega-backend:${{ github.sha }}
+            ${{ env.GCP_AR_URL }}/mega/mega-backend:latest
+            ${{ env.GCP_AR_URL }}/mega/mega-backend:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
