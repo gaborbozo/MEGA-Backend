@@ -1,4 +1,4 @@
-name: Build and Publish Docker Image to Docker Hub
+name: Build and Publish Docker Image to GCP Artifact Repository
 
 on:
   push:
