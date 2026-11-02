@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 
 env:
+  IMAGE_NAME: mega/mega-backend
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GCP_AR_LOCATION: ${{ vars.GCP_AR_LOCATION }}
@@ -60,7 +61,7 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ${{ env.GCP_AR_URL }}/mega/mega-backend:latest
-            ${{ env.GCP_AR_URL }}/mega/mega-backend:${{ github.sha }}
+            ${{ env.GCP_AR_URL }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.GCP_AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
